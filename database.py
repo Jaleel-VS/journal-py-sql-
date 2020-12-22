@@ -1,11 +1,15 @@
-entries = []
+import sqlite3
 
-def add_entry():
-    entry_content = input("What have you learned today? ")
-    entry_date = input("Enter the date: ")
-    
-    entries.append({"content": entry_content, "date": entry_date})
+connection = sqlite3.connect("data.db")
 
-def view_entries():
-    for entry in entries:
-        print(f"{entry['date']}\n{entry['content']}\n\n")
+def create_table():
+    # `with` commits the query after execution
+    with connection:
+        connection.execute("CREATE TABLE entries (content TEXT, date TEXT);")
+
+def add_entry(entry_content, entry_date):
+    with connection:
+        connection.execute("INSERT INTO entries VALUES ('This is some test content', '2020-01-01');")
+
+def get_entries():
+    pass
